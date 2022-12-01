@@ -1,36 +1,41 @@
 import React, { useState } from "react";
-import { TextInputProps, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 import * as S from "./Input.styles";
 
-export type InputProps = TextInputProps & {
+export type InputProps = {
   onAddTask: (newTask: string) => void;
 };
 
-export function Input({ onAddTask, onChangeText, ...rest }: InputProps) {
+export function Input({ onAddTask, ...rest }: InputProps) {
   const [newTask, setNewTask] = useState("");
+
+  const handleAddTask = (newTask: string) => {
+    onAddTask(newTask);
+    setNewTask("");
+  };
 
   return (
     <S.Container>
       <S.Input
         {...rest}
-        onChangeText={(value) => {
-          setNewTask(value);
-          onChangeText?.(value);
-        }}
+        value={newTask}
+        onChangeText={setNewTask}
         placeholder="Crie a tarefa aqui"
         placeholderTextColor={"#eeeee4"}
         onSubmitEditing={(event) => {
-          onAddTask(event.nativeEvent.text);
+          handleAddTask(event.nativeEvent.text);
         }}
       />
-      <TouchableOpacity
-        onPress={() => {
-          onAddTask(newTask);
-        }}
-      >
-        <S.IconCheck />
-      </TouchableOpacity>
+      {newTask.length ? (
+        <TouchableOpacity
+          onPress={() => {
+            handleAddTask(newTask);
+          }}
+        >
+          <S.IconCheck />
+        </TouchableOpacity>
+      ) : undefined}
     </S.Container>
   );
 }

@@ -7,17 +7,20 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 import { Tasks, Input } from "../../components";
 
 export function TasksScreen() {
-  const [newTask, setNewTask] = useState("");
   const [tasks, setTasks] = useState<string[]>([]);
 
   const handleAddTask = (newTask: string) => {
-    const taskFound = tasks.find((t) => t === newTask.trim());
+    const task = newTask.trim();
 
-    if (!taskFound) {
-      setTasks((prev) => [...prev, newTask.trim()]);
+    if (!task) {
+      return;
     }
 
-    setNewTask("");
+    const taskFound = tasks.find((t) => t === task);
+
+    if (!taskFound) {
+      setTasks((prev) => [...prev, task]);
+    }
   };
 
   const handleRemoveTask = (task: string) => {
@@ -29,11 +32,7 @@ export function TasksScreen() {
     <View style={styles.container}>
       <StatusBar />
       <Tasks tasks={tasks} onRemoveTask={handleRemoveTask} />
-      <Input
-        value={newTask}
-        onChangeText={setNewTask}
-        onAddTask={handleAddTask}
-      />
+      <Input onAddTask={handleAddTask} />
     </View>
   );
 }
