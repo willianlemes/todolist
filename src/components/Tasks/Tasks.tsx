@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, FlatList } from "react-native";
 
 import { Task } from "../../components/Task/Task";
+import { EmptyTask } from "../../components/EmptyTask/EmptyTask";
 
 export type TasksProps = {
   tasks: string[];
@@ -18,6 +19,7 @@ export function Tasks({ tasks, onRemoveTask }: TasksProps) {
           {item}
         </Task>
       )}
+      ListEmptyComponent={EmptyTask}
     />
   );
 }
@@ -25,5 +27,6 @@ export function Tasks({ tasks, onRemoveTask }: TasksProps) {
 const styles = StyleSheet.create({
   tasks: {
     paddingHorizontal: 10,
+    flexGrow: 1,
   },
 });
