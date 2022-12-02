@@ -14,12 +14,9 @@ export function Tasks({ tasks, onRemoveTask }: TasksProps) {
     <FlatList
       contentContainerStyle={styles.tasks}
       data={tasks}
-      renderItem={({ item }) => (
-        <Task key={item} onRemoveTask={onRemoveTask}>
-          {item}
-        </Task>
-      )}
+      renderItem={({ item }) => <Task onRemoveTask={onRemoveTask}>{item}</Task>}
       ListEmptyComponent={EmptyTask}
+      keyExtractor={(item) => item}
     />
   );
 }
